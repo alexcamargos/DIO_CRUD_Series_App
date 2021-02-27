@@ -8,10 +8,46 @@ namespace DIO_CRUD_Series_App
 {
     class Program
     {
-        static SerieRepositorio repositorioSerie = new SerieRepositorio();
+        static SerieRepositorio repositorioSeries = new SerieRepositorio();
+
 
         static void Main(string[] args)
         {
+
+            // Adicionando novas séries em tempo de execução para facilitar o desenvolvimento e teste do sistema.
+            Serie newSerie01 = new Serie(id: repositorioSeries.RetornarProximoId(),
+                                         genero: (Genero)12,
+                                         titulo: "CSI: Crime Scene Investigation",
+                                         anoLancamento: 2000,
+                                         descricao: "A série é centrada nas investigações do grupo de cientistas forenses do departamento de criminalística da polícia de Las Vegas, Nevada.");
+        
+            repositorioSeries.InserirSerie(newSerie01);
+
+            Serie newSerie02 = new Serie(id: repositorioSeries.RetornarProximoId(),
+                                         genero: (Genero)3,
+                                         titulo: "Dois Homens e Meio",
+                                         anoLancamento: 2003,
+                                         descricao: "Charlie Harper (Charlie Sheen), é um compositor de jingles, que mora numa bela casa na praia de Malibu, em Los Angeles.");
+        
+            repositorioSeries.InserirSerie(newSerie02);
+
+            Serie newSerie03 = new Serie(id: repositorioSeries.RetornarProximoId(),
+                                         genero: (Genero)3,
+                                         titulo: "Big Bang: A Teoria",
+                                         anoLancamento: 2007,
+                                         descricao: "Leonard Hofstadter (Johnny Galecki) e Sheldon Cooper (Jim Parsons) são dois brilhantes físicos que dividem o mesmo apartamento.");
+        
+            repositorioSeries.InserirSerie(newSerie03);
+
+            Serie newSerie04 = new Serie(id: repositorioSeries.RetornarProximoId(),
+                                         genero: (Genero)15,
+                                         titulo: "Lost",
+                                         anoLancamento: 2004,
+                                         descricao: "Os sobreviventes de um voo que estava milhas fora do curso caem em uma ilha que abriga um sistema de segurança monstruoso, uma série de abrigos subterrâneos e um grupo de sobrevivencialistas violentos escondidos nas sombras.");
+        
+            repositorioSeries.InserirSerie(newSerie04);
+            // Final da lista de séries cadastradas em tempo de execução.
+
             string userInputResult = UserInputMenu();
 
             while (userInputResult.ToUpper() != "X")
@@ -36,7 +72,7 @@ namespace DIO_CRUD_Series_App
                     case "C":
                         ClearsConsoleBuffer();
                         break;
-                    default:
+                    default:  
                         throw new ArgumentOutOfRangeException();
                 }
 
@@ -53,7 +89,7 @@ namespace DIO_CRUD_Series_App
 
             Console.WriteLine("Séries cadastradas no sistemas.\n");
 
-            var lista = repositorioSerie.ListarSerie();
+            var lista = repositorioSeries.ListarSerie();
 
             if (lista.Count == 0)
             {
@@ -91,13 +127,13 @@ namespace DIO_CRUD_Series_App
             Console.Write("Digite a Descrição da Série: ");
             string newDescricao = Console.ReadLine();
 
-            Serie newSerie = new Serie(id: repositorioSerie.RetornarProximoId(),
+            Serie newSerie = new Serie(id: repositorioSeries.RetornarProximoId(),
                                        genero: (Genero)newGenero,
                                        titulo: newTitulo,
                                        anoLancamento: newAnoLancamento,
                                        descricao: newDescricao);
 
-            repositorioSerie.InserirSerie(newSerie);
+            repositorioSeries.InserirSerie(newSerie);
         }
 
         // TODO: Implementar a opção de editar apenas um dos campos de informação, mantendo os dados já gravados.
@@ -123,15 +159,15 @@ namespace DIO_CRUD_Series_App
                                             anoLancamento: newAnoLancamento,
                                             descricao: newDescricao);
 
-            repositorioSerie.AtualizarSerie(idSerie, atualizaSerie);
+            repositorioSeries.AtualizarSerie(idSerie, atualizaSerie);
         }
 
         private static void ExcluirSerieMenu()
         {
-            Console.WriteLine("Informe o ID da série que deseja exluir: ");
+            Console.WriteLine("Informe o ID da série que deseja excluir: ");
             int idSerie = int.Parse(Console.ReadLine());
 
-            repositorioSerie.ExcluirSerie(idSerie);
+            repositorioSeries.ExcluirSerie(idSerie);
         }
 
         private static void VisualizarSerieMenu()
@@ -140,7 +176,7 @@ namespace DIO_CRUD_Series_App
             Console.WriteLine("Informe o ID da série que deseja visualizar: ");
             int idSerie = int.Parse(Console.ReadLine());
 
-            var serie = repositorioSerie.RetornarSeriePorId(idSerie);
+            var serie = repositorioSeries.RetornarSeriePorId(idSerie);
 
             Console.WriteLine(serie);
 
@@ -188,7 +224,7 @@ namespace DIO_CRUD_Series_App
 
         private static void PressAnyKey()
         {
-            Console.WriteLine("\n\nPressione qualquer tecla para continuar");
+            Console.WriteLine("\n\nPressione qualquer tecla para continuar...");
             Console.ReadLine();
         }
 

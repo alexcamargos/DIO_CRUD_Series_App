@@ -8,7 +8,7 @@ namespace DIO_CRUD_Series_App.Classes
     public class Serie : Entidade
     {
         // Atributos
-        public Serie(Genero genero, string titulo, string descricao, int anoLancamento, bool excluido) 
+        public Serie(string titulo, Genero genero, string descricao, int anoLancamento, bool excluido) 
         {
             this.genero = genero;
             this.titulo = titulo;
