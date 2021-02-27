@@ -52,21 +52,33 @@ namespace DIO_CRUD_Series_App
 
             while (userInputResult.ToUpper() != "X")
             {
+                // TODO: Teste implementação com ClearsConsoleBuffer e PressAnyKey depois de cada chamada de menu
+                /*
+                ClearsConsoleBuffer();
+                ListarSerieMenu();
+                PressAnyKey();
+                break;
+                */
                 switch (userInputResult)
                 {
                     case "1":
+                        ClearsConsoleBuffer();
                         ListarSerieMenu();
                         break;
                     case "2":
+                        ClearsConsoleBuffer();
                         InserirSerieMenu();
                         break;
                     case "3":
+                        ClearsConsoleBuffer();
                         AtualizarSerieMenu();
                         break;
                     case "4":
+                        ClearsConsoleBuffer();
                         ExcluirSerieMenu();
                         break;
                     case "5":
+                        ClearsConsoleBuffer();
                         VisualizarSerieMenu();
                         break;
                     case "C":
@@ -79,15 +91,16 @@ namespace DIO_CRUD_Series_App
                 userInputResult = UserInputMenu();
             }
 
-            Console.WriteLine("DIO_CRUD_Series_App agradece sua visita!");
+            Console.WriteLine("DIO_CRUD_Series_App: Presione qualquer tecla para fechar!");
             Console.ReadLine();
         }
 
         private static void ListarSerieMenu()
         {
-            ClearsConsoleBuffer();
+            WriteAppTitle();
 
-            Console.WriteLine("Séries cadastradas no sistemas.\n");
+            Console.WriteLine("SÉRIES CADASTRADAS NO SISTEMAS.");
+            Console.WriteLine("-------------------------------");
 
             var lista = repositorioSeries.ListarSerie();
 
@@ -108,13 +121,15 @@ namespace DIO_CRUD_Series_App
                 }
 
             }
-
             PressAnyKey();
         }
 
         private static void InserirSerieMenu()
         {
-            Console.WriteLine("Inserir nova série!");
+            WriteAppTitle();
+
+            Console.WriteLine("INSERIR NOVA SÉRIE.");
+            Console.WriteLine("-------------------");
 
             var newGenero = ShowGenderSelection();
 
@@ -134,11 +149,18 @@ namespace DIO_CRUD_Series_App
                                        descricao: newDescricao);
 
             repositorioSeries.InserirSerie(newSerie);
+
+            Console.WriteLine("Cadastro efetuado com sucesso.");
+            PressAnyKey();
         }
 
         // TODO: Implementar a opção de editar apenas um dos campos de informação, mantendo os dados já gravados.
         private static void AtualizarSerieMenu()
         {
+            WriteAppTitle();
+            Console.WriteLine("ATUALIZAR SÉRIE.");
+            Console.WriteLine("----------------");
+
             Console.WriteLine("Informe o ID da série que deseja atualizar: ");
             int idSerie = int.Parse(Console.ReadLine());
 
@@ -160,36 +182,70 @@ namespace DIO_CRUD_Series_App
                                             descricao: newDescricao);
 
             repositorioSeries.AtualizarSerie(idSerie, atualizaSerie);
+
+            Console.WriteLine($"{newTitulo} foi atualizada com sucesso.");
+            PressAnyKey();
         }
 
         private static void ExcluirSerieMenu()
         {
+            WriteAppTitle();
+            Console.WriteLine("EXCLUIR SÉRIE.");
+            Console.WriteLine("-------------");
+
             Console.WriteLine("Informe o ID da série que deseja excluir: ");
             int idSerie = int.Parse(Console.ReadLine());
 
-            repositorioSeries.ExcluirSerie(idSerie);
+            Console.WriteLine(repositorioSeries.RetornarSeriePorId(idSerie));
+
+            Console.WriteLine("Deseja realmente excluir a serie?");
+            Console.WriteLine("S - Sim\nN - Não");
+            var confirmaExcluir = Console.ReadLine();
+
+            if (confirmaExcluir.ToUpper() == "S")
+            {
+                repositorioSeries.ExcluirSerie(idSerie);
+
+                Console.WriteLine("Série excluída com sucesso.");
+                PressAnyKey();
+            }
+            else
+            {
+                return;
+            }
         }
 
         private static void VisualizarSerieMenu()
         {
+
+            WriteAppTitle();
+            Console.WriteLine("VISUALIZAR SÉRIE.");
+            Console.WriteLine("-----------------");
             
             Console.WriteLine("Informe o ID da série que deseja visualizar: ");
             int idSerie = int.Parse(Console.ReadLine());
 
-            var serie = repositorioSeries.RetornarSeriePorId(idSerie);
+            // var serie = repositorioSeries.RetornarSeriePorId(idSerie);
 
-            Console.WriteLine(serie);
+            Console.WriteLine(repositorioSeries.RetornarSeriePorId(idSerie));
 
             PressAnyKey();
         }
-
+        
+        // TODO: Acrescentar o título do programa em todas as janelas.
+        private static void WriteAppTitle()
+        {
+            Console.WriteLine("\nDIO_CRUD_Series_App\n");
+            Console.WriteLine("Copyright 2021 - Alexsander Lopes Camargos.\n");
+            Console.WriteLine("Desafio de Projeto: Criando um APP simples de cadastro de séries em .NET.\n\n");
+        }
+        
         private static string UserInputMenu()
         {
             string userInputResult;
 
             ClearsConsoleBuffer();
-
-            Console.WriteLine("\nDIO_CRUD_Series_App\n");
+            WriteAppTitle();
 
             Console.WriteLine("Menu de opções:\n");
             Console.WriteLine("1 - Listar séries");
